@@ -56,15 +56,8 @@ export function PortfolioItem({ stock }: PortfolioItemProps) {
                     <div className="flex flex-col items-end gap-0.5">
                         <span className="font-semibold text-sm">${briefingStock.price}</span>
                         <span className={`text-xs font-medium px-1.5 py-0.5 rounded-md flex items-center ${briefingStock.changeColor === 'red' ? 'bg-red-50 text-red-600' :
-                                briefingStock.changeColor === 'green' ? 'bg-green-50 text-green-600' : // or blue depending on API convention. Assuming API returns semantic color
-                                    // Wait, previous code commented: Korean Red=Up, Blue=Down. API typed as green/red/grey.
-                                    // If API follows global standard (Green=Up), but user is Korean...
-                                    // Let's assume the API logic handles the "Color" decision based on locale if it's returning 'red'/'green'.
-                                    // If I look at `StockBriefing` type, it has `changeColor`.
-                                    // Let's just trust `changeColor` map to CSS classes.
-                                    // If 'red' came from API, use red style.
-                                    briefingStock.changeColor === 'green' ? 'bg-green-50 text-green-600' : // Standard Western Green
-                                        'bg-gray-100 text-gray-600'
+                                briefingStock.changeColor === 'green' ? 'bg-green-50 text-green-600' :
+                                    'bg-gray-100 text-gray-600'
                             }`}>
                             {briefingStock.change}
                         </span>
