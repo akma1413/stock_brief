@@ -12,7 +12,7 @@ begin
     new.email,
     new.raw_user_meta_data->>'full_name',
     new.raw_user_meta_data->>'avatar_url',
-    new.app_metadata->>'provider',
+    new.raw_app_meta_data->>'provider',
     new.raw_user_meta_data,
     new.created_at,
     new.last_sign_in_at
