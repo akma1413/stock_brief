@@ -6,6 +6,7 @@ import { generateBriefing } from '@/features/briefing/actions'
 import { BriefingData } from '@/features/briefing/types'
 import { Loader2 } from 'lucide-react'
 import { BriefingDashboard } from './BriefingDashboard'
+import { BriefingLoadingState } from './BriefingLoadingState'
 import { getUserSettings, updateUserSettings, UserSettings } from '@/features/settings/actions'
 
 export function BriefingGenerator() {
@@ -88,13 +89,8 @@ export function BriefingGenerator() {
                 </div>
             )}
 
-            {isLoading && !data && ( /* Show big loader only if no data exists */
-                <div className="flex flex-col items-center justify-center p-12 space-y-4">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    <p className="text-muted-foreground animate-pulse">
-                        시장 데이터를 분석하고 인사이트를 도출하는 중...
-                    </p>
-                </div>
+            {isLoading && !data && ( /* Show Ad Loading State */
+                <BriefingLoadingState />
             )}
 
             {data && ( /* Render Dashboard even when loading (refreshing) */
