@@ -70,7 +70,7 @@ export function MarketSummaryCard({ insight }: MarketSummaryCardProps) {
             <div className="px-5 py-3 border-b flex justify-between items-center bg-muted/20">
                 <h3 className="text-sm font-semibold flex items-center gap-2 text-muted-foreground">
                     <TrendingUp className="w-4 h-4" />
-                    Market Insight
+                    시황 브리핑
                 </h3>
                 <div className="flex gap-1">
                     {scrollSnaps.map((_, index) => (

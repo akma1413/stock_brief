@@ -98,13 +98,21 @@ export function BriefingGenerator() {
             )}
 
             {data && ( /* Render Dashboard even when loading (refreshing) */
-                <BriefingDashboard
-                    data={data}
-                    onRegenerate={handleGenerate}
-                    isLoading={isLoading}
-                    settings={settings}
-                    onSettingsChange={handleSettingsChange}
-                />
+                <>
+                    <div className="flex items-end justify-between mb-3">
+                        <h2 className="font-semibold text-lg">오늘의 인사이트</h2>
+                        <span className="text-xs text-muted-foreground mb-1">
+                            {new Date().toLocaleDateString()} | {new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 기준
+                        </span>
+                    </div>
+                    <BriefingDashboard
+                        data={data}
+                        onRegenerate={handleGenerate}
+                        isLoading={isLoading}
+                        settings={settings}
+                        onSettingsChange={handleSettingsChange}
+                    />
+                </>
             )}
         </div>
     )
