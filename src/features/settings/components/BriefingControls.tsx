@@ -19,7 +19,7 @@ export function BriefingControls({ settings, onUpdate, disabled }: BriefingContr
     ] as const
 
     return (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center space-x-2 bg-background/80 backdrop-blur-md p-2 rounded-full border shadow-lg animate-in slide-in-from-bottom-5 fade-in duration-500">
+        <div style={{ display: 'none' }} className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center space-x-2 bg-background/80 backdrop-blur-md p-2 rounded-full border shadow-lg animate-in slide-in-from-bottom-5 fade-in duration-500">
             {tones.map((t) => {
                 const Icon = t.icon
                 const isActive = settings.tone === t.id
