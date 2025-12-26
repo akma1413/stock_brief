@@ -75,7 +75,7 @@ export function BriefingGenerator() {
                 <div className="text-center p-8 bg-muted/20 rounded-lg border border-dashed">
                     <h3 className="font-semibold mb-2">오늘의 브리핑 준비 완료</h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                        보유 종목에 대한 AI 맞춤 요약을 받아보세요.
+                        보유 종목 AI 맞춤 요약
                     </p>
                     <div className='flex justify-center mb-4'>
                         {/* Optional: Show simple tone selector here too? For now, just generate */}

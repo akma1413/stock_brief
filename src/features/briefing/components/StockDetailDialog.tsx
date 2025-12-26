@@ -1,7 +1,7 @@
 'use client'
 
 import { StockBriefing } from '@/features/briefing/types'
-import { X, TrendingUp, TrendingDown, Minus, Calendar } from 'lucide-react'
+import { X, TrendingUp, TrendingDown, Minus, Calendar, ChevronDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { TermHighlighter } from './TermHighlighter'
 
@@ -69,7 +69,7 @@ export function StockDetailDialog({ stock, showSources, onClose }: StockDetailDi
                 <div className="space-y-8">
                     <section>
                         <h3 className="font-semibold text-lg mb-3 text-foreground/90">오늘 주가 해설</h3>
-                        <ul className="space-y-3 list-disc pl-5 text-[15px] text-foreground/80 leading-relaxed font-medium">
+                        <ul className="space-y-3 list-disc pl-5 text-[15px] text-foreground/80 leading-relaxed font-medium break-keep">
                             {Array.isArray(stock.detailedAnalysis) ? stock.detailedAnalysis.map((point, i) => (
                                 <li key={i} className="pl-1 marker:text-muted-foreground">
                                     <TermHighlighter text={point} showSources={showSources} />
@@ -107,13 +107,15 @@ export function StockDetailDialog({ stock, showSources, onClose }: StockDetailDi
                             {Array.isArray(stock.upcomingEvents) && stock.upcomingEvents.length > 0 ? (
                                 stock.upcomingEvents.map((event, i) => (
                                     <div key={i} className="p-4 bg-muted/30 rounded-lg border border-border/40">
-                                        <div className="flex items-center justify-between mb-3">
-                                            <span className="font-medium text-base">{event.name}</span>
-                                            {event.dDay && (
-                                                <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md border border-blue-100">
-                                                    {event.dDay}
-                                                </span>
-                                            )}
+                                        <div className="flex flex-col gap-1 mb-3">
+                                            <div className="flex justify-between items-start gap-2">
+                                                <span className="font-medium text-base leading-tight break-keep">{event.name}</span>
+                                                {event.dDay && (
+                                                    <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md border border-blue-100 shrink-0 whitespace-nowrap">
+                                                        {event.dDay}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                         <ul className="space-y-1.5">
                                             {Array.isArray(event.scenario) && event.scenario.map((scen, j) => (
@@ -147,19 +149,20 @@ function AnalysisAccordionItem({ item }: { item: { title: string, source: string
                 className="w-full text-left p-4 hover:bg-muted/30 transition-colors flex justify-between items-start gap-3"
             >
                 <div className="space-y-1.5 w-full">
-                    <h4 className="font-medium text-[15px] leading-snug">{item.title}</h4>
+                    <h4 className="font-medium text-[15px] leading-snug break-keep">{item.title}</h4>
                     <div className="flex items-center text-xs text-muted-foreground gap-2">
                         <span>{item.source}</span>
                         <span className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50" />
                         <span>{item.date}</span>
                     </div>
                 </div>
+                <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {isOpen && (
                 <div className="px-4 pb-4 pt-0 animate-in slide-in-from-top-2 duration-200">
                     <div className="h-px w-full bg-border/40 mb-3" />
-                    <p className="text-sm text-foreground/80 leading-relaxed bg-muted/20 p-3 rounded-md">
+                    <p className="text-sm text-foreground/80 leading-relaxed bg-muted/20 p-3 rounded-md break-keep">
                         {item.summary}
                     </p>
                 </div>

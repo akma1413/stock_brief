@@ -34,9 +34,14 @@ export function StockBriefingCard({ stock, showSources, onClick }: StockBriefing
                 </div>
             </div>
 
-            <p className="text-sm text-muted-foreground text-pretty leading-relaxed">
+            <p className="text-sm text-muted-foreground text-pretty leading-relaxed line-clamp-3 break-keep mb-1">
                 <TermHighlighter text={stock.summary} showSources={showSources} />
             </p>
+            <div className="flex justify-end">
+                <span className="text-xs text-primary/80 flex items-center gap-0.5 group-hover:text-primary transition-colors font-medium">
+                    자세히 보기 <ChevronRight className="w-3 h-3" />
+                </span>
+            </div>
         </div>
     )
 }

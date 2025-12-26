@@ -10,7 +10,7 @@ export function BriefingLoadingState() {
             {/* Header Area */}
             <div className="bg-muted/30 p-4 border-b flex items-center justify-center space-x-3">
                 <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                <span className="text-sm font-medium animate-pulse">분석이 완료되면 자동으로 광고가 종료됩니다</span>
+                <span className="text-sm font-medium animate-pulse">분석 완료 시 광고 자동 종료</span>
             </div>
 
             {/* Main Content (Ad area takes focus) */}

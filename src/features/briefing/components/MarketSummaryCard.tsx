@@ -90,14 +90,14 @@ export function MarketSummaryCard({ insight }: MarketSummaryCardProps) {
                 <div className="flex touch-pan-y">
                     {cards.map((card, index) => (
                         <div key={index} className="flex-[0_0_100%] min-w-0 pl-0">
-                            <div className="p-6 min-h-[160px] flex flex-col justify-start gap-4 h-full">
+                            <div className="p-4 min-h-[160px] flex flex-col justify-start gap-4 h-full">
                                 <div className="flex items-center gap-2">
                                     <card.icon className={cn("w-5 h-5", card.color)} />
                                     <h4 className="font-bold text-lg">{card.title}</h4>
                                 </div>
                                 <ul className="space-y-2">
                                     {Array.isArray(card.content) && card.content.map((item, idx) => (
-                                        <li key={idx} className="flex items-start gap-2 text-sm leading-relaxed">
+                                        <li key={idx} className="flex items-start gap-2 text-sm leading-relaxed break-keep">
                                             <span className={cn("mt-1.5 w-1.5 h-1.5 rounded-full shrink-0", card.color.replace('text-', 'bg-'))} />
                                             <span className="text-foreground/90">{item}</span>
                                         </li>

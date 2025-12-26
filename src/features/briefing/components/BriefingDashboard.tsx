@@ -40,7 +40,7 @@ export function BriefingDashboard({
                             <p className="text-xs text-muted-foreground">{data.date}</p>
                         </div>
                     </div>
-                    <div className="text-sm font-medium leading-relaxed space-y-2">
+                    <div className="text-sm font-medium leading-relaxed space-y-2 break-keep">
                         {Array.isArray(data.marketOverview) ? (
                             data.marketOverview.map((line, idx) => (
                                 <p key={idx}>{line}</p>
