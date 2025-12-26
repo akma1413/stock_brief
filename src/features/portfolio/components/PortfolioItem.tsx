@@ -2,8 +2,9 @@
 
 import { Button } from '@/components/ui/button'
 import { deleteFromPortfolio } from '@/features/portfolio/actions'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { X } from 'lucide-react'
+import { useBriefing } from '@/features/briefing/context/BriefingContext'
 
 interface PortfolioItemProps {
     stock: {
@@ -15,6 +16,7 @@ interface PortfolioItemProps {
 
 export function PortfolioItem({ stock }: PortfolioItemProps) {
     const [isDeleting, setIsDeleting] = useState(false)
+    const { briefingData } = useBriefing()
 
     const handleDelete = async () => {
         if (!confirm(`${stock.ticker} 종목을 포트폴리오에서 삭제하시겠습니까?`)) return
@@ -28,28 +30,17 @@ export function PortfolioItem({ stock }: PortfolioItemProps) {
         }
     }
 
-    // Mock Price Data generation (Client-side for now, to be consistent with MVP mock approach)
-    // In real app, this would come from the parent or a separate hook.
-    // Fix Hydration Mismatch: Initialize with null or stable default, then randomize on mount
-    const [mockPrice, setMockPrice] = useState<string>('0.00')
-    const [mockChangeRaw, setMockChangeRaw] = useState<number>(0)
+    // Find stock data in briefingData if available
+    const briefingStock = briefingData?.stocks.find(s => s.ticker === stock.ticker)
 
-    // Generate strict client-side only random data to prevent hydration mismatch
-    useState(() => { // Using lazy initializer or just generic useEffect
-        // Actually, just set it once on mount
-    })
+    const isPositive = briefingStock?.changeColor === 'red' // Based on Korean market convention logic or API response
+    // Wait, the API response has changeColor: 'green' | 'red' | 'grey'. 
+    // In Korea: Red is UP, Blue is DOWN.
+    // Let's rely on the passed color or parse the change value string if needed.
+    // But `briefingStock` has `changeColor` property.
+    // Ideally we trust the API.
 
-    // Actually, simple way: 
-    const [mounted, setMounted] = useState(false)
-    useEffect(() => {
-        setMounted(true)
-        setMockPrice((Math.random() * 200 + 50).toFixed(2))
-        setMockChangeRaw(Math.random() * 10 - 4)
-    }, [])
-
-    const mockChange = mounted ? mockChangeRaw.toFixed(2) + '%' : '0.00%'
-    const isPositive = mockChangeRaw > 0
-    const isNegative = mockChangeRaw < 0
+    // If no briefing data, we show nothing (empty space) as requested.
 
     return (
         <div className="flex items-center justify-between p-4 border rounded-xl bg-card shadow-sm hover:shadow-md transition-shadow">
@@ -61,24 +52,22 @@ export function PortfolioItem({ stock }: PortfolioItemProps) {
 
             {/* Right: Price & Action */}
             <div className="flex items-center gap-3">
-                <div className="flex flex-col items-end gap-0.5">
-                    <span className="font-semibold text-sm">${mockPrice}</span>
-                    <span className={`text-xs font-medium px-1.5 py-0.5 rounded-md flex items-center ${isPositive ? 'bg-red-50 text-red-600' : isNegative ? 'bg-blue-50 text-blue-600' : 'bg-gray-100 text-gray-600'
-                        }`}>
-                        {/* Note: In Korea, Red is up, Blue is down usually. Let's follow standard western/crypto green/red for now unless requested, 
-                            BUT wait, the user is Korean.
-                            Korean Stock Color Standard: Red = UP, Blue = DOWN. 
-                            I should probably switch to this if I want to be "localized".
-                            Let's stick to Green/Red for now to match previous code, OR flip it? 
-                            The previous code was Green=Up.
-                            Let's keep Green/Red effectively but maybe style it better. 
-                            Actually, let's Stick to Green/Red (Global Standard) unless user complains, 
-                            OR better, check user earlier preference? No specific preference.
-                            I will make the badge look cleaner.
-                        */}
-                        {isPositive ? '+' : ''}{mockChange}
-                    </span>
-                </div>
+                {briefingStock ? (
+                    <div className="flex flex-col items-end gap-0.5">
+                        <span className="font-semibold text-sm">${briefingStock.price}</span>
+                        <span className={`text-xs font-medium px-1.5 py-0.5 rounded-md flex items-center ${briefingStock.changeColor === 'red' ? 'bg-red-50 text-red-600' :
+                                briefingStock.changeColor === 'green' ? 'bg-green-50 text-green-600' :
+                                    'bg-gray-100 text-gray-600'
+                            }`}>
+                            {briefingStock.change}
+                        </span>
+                    </div>
+                ) : (
+                    <div className="w-[60px]"></div> // Placeholder spacer to keep layout stable or just empty? User said "비워둬" (leave empty).
+                    // "비워둬" likely means don't show numbers. Spacer might be nice for alignment but X button is there.
+                    // The layout is justify-between, so X button stays right.
+                    // So we just render nothing here. 
+                )}
 
                 <Button
                     variant="ghost"
