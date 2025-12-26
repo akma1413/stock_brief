@@ -12,7 +12,7 @@ export default function LandingPage() {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentScreen((prev) => (prev + 1) % 3);
-        }, 1500);
+        }, 2500);
         return () => clearInterval(timer);
     }, [currentScreen]);
 
