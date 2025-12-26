@@ -1,7 +1,7 @@
 'use client'
 
 import { StockBriefing } from '@/features/briefing/types'
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, ChevronRight } from 'lucide-react'
 import { TermHighlighter } from './TermHighlighter'
 
 interface StockBriefingCardProps {
@@ -16,7 +16,7 @@ export function StockBriefingCard({ stock, showSources, onClick }: StockBriefing
 
     return (
         <div
-            className="flex flex-col p-4 border rounded-lg bg-card hover:shadow-md transition-all cursor-pointer space-y-2 active:scale-[0.99] active:bg-accent/50"
+            className="flex flex-col p-4 border rounded-lg bg-card hover:shadow-md transition-all cursor-pointer space-y-2 active:scale-[0.99] active:bg-accent/50 group"
             onClick={() => onClick(stock)}
         >
             <div className="flex items-center justify-between">
