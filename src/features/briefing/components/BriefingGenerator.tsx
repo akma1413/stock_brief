@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { generateBriefing } from '@/features/briefing/actions'
-import { BriefingData } from '@/features/briefing/types'
 import { Loader2 } from 'lucide-react'
 import { BriefingDashboard } from './BriefingDashboard'
 import { BriefingLoadingState } from './BriefingLoadingState'
 import { getUserSettings, updateUserSettings, UserSettings } from '@/features/settings/actions'
+import { useBriefing } from '@/features/briefing/context/BriefingContext'
 
 export function BriefingGenerator() {
-    const [data, setData] = useState<BriefingData | null>(null)
+    const { briefingData, setBriefingData } = useBriefing()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -34,7 +34,7 @@ export function BriefingGenerator() {
             if (result.error) {
                 setError(result.error)
             } else if (result.data) {
-                setData(result.data)
+                setBriefingData(result.data)
             }
         } catch (e) {
             const msg = e instanceof Error ? e.message : 'An unexpected error occurred.';
@@ -50,7 +50,6 @@ export function BriefingGenerator() {
         // 1. Optimistic UI update
         setSettings(newSettings)
         // 2. Clear old data to show we are regenerating (optional, or keep it and show spinner)
-        // setData(null) // Let's keep data but show loading via controls if supported
         setIsLoading(true)
 
         try {
@@ -60,7 +59,7 @@ export function BriefingGenerator() {
             // 4. Regenerate Briefing
             const result = await generateBriefing()
             if (result.data) {
-                setData(result.data)
+                setBriefingData(result.data)
             }
         } catch (e) {
             console.error("Failed to update settings and regenerate", e)
@@ -71,7 +70,7 @@ export function BriefingGenerator() {
 
     return (
         <div className="space-y-4">
-            {!data && !isLoading && (
+            {!briefingData && !isLoading && (
                 <div className="text-center p-8 bg-muted/20 rounded-lg border border-dashed">
                     <h3 className="font-semibold mb-2">오늘의 브리핑 준비 완료</h3>
                     <p className="text-sm text-muted-foreground mb-4">
@@ -89,11 +88,11 @@ export function BriefingGenerator() {
                 </div>
             )}
 
-            {isLoading && !data && ( /* Show Ad Loading State */
+            {isLoading && !briefingData && ( /* Show Ad Loading State */
                 <BriefingLoadingState />
             )}
 
-            {data && ( /* Render Dashboard even when loading (refreshing) */
+            {briefingData && ( /* Render Dashboard even when loading (refreshing) */
                 <>
                     <div className="flex items-end justify-between mb-3">
                         <h2 className="font-semibold text-lg">오늘의 인사이트</h2>
@@ -102,7 +101,7 @@ export function BriefingGenerator() {
                         </span>
                     </div>
                     <BriefingDashboard
-                        data={data}
+                        data={briefingData}
                         onRegenerate={handleGenerate}
                         isLoading={isLoading}
                         settings={settings}
