@@ -37,9 +37,8 @@ export function AdSense({
             // Check if window.adsbygoogle is available and hasn't been pushed for this instance yet
             // Note: AdSense manages multiple pushes itself, but strict mode in React can cause double pushes
             // Safe pattern:
-            if (window.adsbygoogle) {
-                // @ts-ignore
-                (window.adsbygoogle = window.adsbygoogle || []).push({})
+            if ((window as any).adsbygoogle) {
+                ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
             }
         } catch (e) {
             console.error('AdSense error:', e)
