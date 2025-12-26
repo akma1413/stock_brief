@@ -14,7 +14,7 @@ export default function LandingPage() {
             setCurrentScreen((prev) => (prev + 1) % 3);
         }, 1500);
         return () => clearInterval(timer);
-    }, []);
+    }, [currentScreen]);
 
     // Dynamic Counter Logic
     useEffect(() => {
